@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -21,6 +22,10 @@ import { z } from "zod"
 import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from 'sonner'
+import { signInUser } from "@/server/users"
+import { is } from "drizzle-orm"
+import { Spinner } from "../ui/spinner"
+import Link from "next/link"
 
 const loginFormSchema = z.object({
   email: z.email("Invalid email address"),
@@ -32,6 +37,8 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<"div">) {
 
+  const [ isLoading, setIsLoading ] = useState(false);
+
   const form = useForm<z.infer<typeof loginFormSchema>>({
       resolver: zodResolver(loginFormSchema),
       defaultValues: {
@@ -41,8 +48,20 @@ export function LoginForm({
   })
 
   function onSubmit(data: z.infer<typeof loginFormSchema>) {
-    console.log(data)
-    toast.success("Logged in successfully!")
+    try {
+      setIsLoading(true);
+      signInUser(data.email, data.password).then((result) => {
+        if (result.success) {
+          toast.success(result.message)
+        } else {
+          toast.error(result.message)
+        }
+      }).finally(() => {
+        setIsLoading(false);
+      });
+    } catch (error) {
+      toast.error("An unexpected error occurred. Please try again.")
+    }
   }
     
 
@@ -86,12 +105,12 @@ export function LoginForm({
                   <Field data-invalid={fieldState.invalid}>
                     <div className="flex items-center">
                       <FieldLabel htmlFor="login-form-password">Password</FieldLabel>
-                      <a
+                      <Link
                         href="#"
                         className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                       >
                         Forgot your password?
-                      </a>
+                      </Link>
                     </div>
                     <Input
                       {...field}
@@ -107,12 +126,15 @@ export function LoginForm({
                 )}
               />
               <Field>
-                <Button type="submit" form="login-form">Login</Button>
+                <Button type="submit" form="login-form">
+                  { isLoading && <Spinner />}
+                  {isLoading ? "Logging in" : "Login"}
+                </Button>
                 <Button variant="outline" type="button">
                   Login with Google
                 </Button>
                 <FieldDescription className="text-center">
-                  Don&apos;t have an account? <a href="#">Sign up</a>
+                  Don&apos;t have an account? <Link href="#">Sign up</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>
