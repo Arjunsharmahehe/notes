@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import React from 'react'
 import { cn } from '@/lib/utils'
 import { useScroll } from 'motion/react'
-import { ModeToggle } from './theme-toggle-button'
+import { ModeToggle } from '../theme-toggle-button'
 
 const menuItems = [
     { name: 'Features', href: '#link' },
