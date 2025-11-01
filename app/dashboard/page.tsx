@@ -1,3 +1,4 @@
+import { CreateNotebookDialog } from "@/components/create-notebook";
 import { Logout } from "@/components/logout";
 import { Notebooks } from "@/components/notebooks";
 import { PageWrapper } from "@/components/page-wrapper";
@@ -12,6 +13,7 @@ export default async function DashboardPage() {
     <PageWrapper breadcrumbs={[{ label: "Dashboard", href: "/dashboard" }]} title="Dashboard">
       <h1>Dashboard</h1>
       <p>Welcome to your dashboard!</p>
+      <CreateNotebookDialog />
       {notebooks.success &&
         notebooks.notebooks?.map((notebook) => (
           <div key={notebook.id}>
@@ -21,10 +23,6 @@ export default async function DashboardPage() {
       
       {notebooks.success && notebooks.notebooks.length === 0 && (
         <p>You have no notebooks. Start by creating one!</p>
-      )}
-
-      {!notebooks.success && (
-        <p>Error loading notebooks: {notebooks.message}</p>
       )}
     </PageWrapper>
   );
