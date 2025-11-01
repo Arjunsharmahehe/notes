@@ -23,9 +23,9 @@ import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from 'sonner'
 import { signInUser } from "@/server/users"
-import { is } from "drizzle-orm"
 import { Spinner } from "../ui/spinner"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 const loginFormSchema = z.object({
   email: z.email("Invalid email address"),
@@ -38,6 +38,7 @@ export function LoginForm({
 }: React.ComponentProps<"div">) {
 
   const [ isLoading, setIsLoading ] = useState(false);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof loginFormSchema>>({
       resolver: zodResolver(loginFormSchema),
@@ -53,6 +54,7 @@ export function LoginForm({
       signInUser(data.email, data.password).then((result) => {
         if (result.success) {
           toast.success(result.message)
+          router.push("/dashboard");
         } else {
           toast.error(result.message)
         }
