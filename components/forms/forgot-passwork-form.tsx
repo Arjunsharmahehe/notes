@@ -25,14 +25,15 @@ import { toast } from 'sonner'
 import { signInUser } from "@/server/users"
 import { Spinner } from "../ui/spinner"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { redirect, useRouter } from "next/navigation"
+import { Plane, Send } from "lucide-react"
+import { authClient } from "@/lib/auth-client"
 
 const loginFormSchema = z.object({
   email: z.email("Invalid email address"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
 })
 
-export function LoginForm({
+export function ForgotPasswordForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
@@ -44,25 +45,25 @@ export function LoginForm({
       resolver: zodResolver(loginFormSchema),
       defaultValues: {
         email: "",
-        password: "",
       },
   })
 
-  function onSubmit(data: z.infer<typeof loginFormSchema>) {
+  async function onSubmit(data: z.infer<typeof loginFormSchema>) {
     try {
       setIsLoading(true);
-      signInUser(data.email, data.password).then((result) => {
-        if (result.success) {
-          toast.success(result.message)
-          router.push("/dashboard");
-        } else {
-          toast.error(result.message)
-        }
-      }).finally(() => {
-        setIsLoading(false);
+      const { error } = await authClient.forgetPassword({
+        email: data.email,
+        redirectTo: "/reset-password"
       });
+      if (!error) {
+          toast.success("Password reset email sent. Please check your inbox.");
+      } else {
+        toast.error(error.message);
+      }
     } catch (error) {
       toast.error("An unexpected error occurred. Please try again.")
+    } finally {
+        setIsLoading(false);
     }
   }
     
@@ -71,23 +72,23 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
+          <CardTitle>Reset your password</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Enter your email below to receive a password reset link
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form id="login-form" onSubmit={form.handleSubmit(onSubmit)}>
+          <form id="forgot-password-form" onSubmit={form.handleSubmit(onSubmit)}>
             <FieldGroup>
               <Controller
                 name="email"
                 control={form.control}
                 render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="login-form-email">Email</FieldLabel>
+                  <FieldLabel htmlFor="forgot-password-form-email">Email</FieldLabel>
                   <Input
                     {...field}
-                    id="login-form-email"
+                    id="forgot-password-form-email"
                     type="email"
                     placeholder="johndoe@example.com"
                     aria-invalid={fieldState.invalid}
@@ -100,37 +101,10 @@ export function LoginForm({
                 )}
               />
 
-              <Controller
-                name="password"
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <div className="flex items-center">
-                      <FieldLabel htmlFor="login-form-password">Password</FieldLabel>
-                      <Link
-                        href="/forgot-password"
-                        className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                      >
-                        Forgot your password?
-                      </Link>
-                    </div>
-                    <Input
-                      {...field}
-                      id="login-form-password"
-                      type="password"
-                      aria-invalid={fieldState.invalid}
-                      autoComplete="off"
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
-              />
               <Field>
-                <Button type="submit" form="login-form">
+                <Button type="submit" form="forgot-password-form">
                   { isLoading && <Spinner />}
-                  {isLoading ? "Logging in" : "Login"}
+                  {isLoading ? "Sending" : "Reset Password"}
                 </Button>
                 <Button variant="outline" type="button">
                   Login with Google
