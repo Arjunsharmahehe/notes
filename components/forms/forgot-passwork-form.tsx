@@ -106,9 +106,6 @@ export function ForgotPasswordForm({
                   { isLoading && <Spinner />}
                   {isLoading ? "Sending" : "Reset Password"}
                 </Button>
-                <Button variant="outline" type="button">
-                  Login with Google
-                </Button>
                 <FieldDescription className="text-center">
                   Don&apos;t have an account? <Link href="#">Sign up</Link>
                 </FieldDescription>

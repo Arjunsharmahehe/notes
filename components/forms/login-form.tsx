@@ -132,9 +132,6 @@ export function LoginForm({
                   { isLoading && <Spinner />}
                   {isLoading ? "Logging in" : "Login"}
                 </Button>
-                <Button variant="outline" type="button">
-                  Login with Google
-                </Button>
                 <FieldDescription className="text-center">
                   Don&apos;t have an account? <Link href="#">Sign up</Link>
                 </FieldDescription>
