@@ -24,7 +24,6 @@ import { Spinner } from "../ui/spinner"
 import Link from "next/link"
 import { useState } from "react"
 import { signUpUser } from "@/server/users"
-import { useRouter } from "next/navigation"
 
 const loginFormSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -44,7 +43,6 @@ const loginFormSchema = z.object({
 export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
 
   const [ isLoading, setIsLoading ] = useState(false);
-  const router = useRouter();
 
   const form = useForm({
     resolver: zodResolver(loginFormSchema),
@@ -61,8 +59,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
       setIsLoading(true);
       signUpUser(data.name, data.email, data.password).then((result) => {
         if (result.success) {
-          toast.success(result.message)
-          router.push("/login");
+          toast.success("Please check your email to verify your account.");
         } else {
           toast.error(result.message)
         }
