@@ -18,20 +18,20 @@ type PageWrapperProps = {
 export function PageWrapper({ children, title, breadcrumbs }: PageWrapperProps) {
     return (
         <div className="flex flex-col gap-4">
-            <header className="flex items-center justify-between w-full px-4 py-2 gap-4">
+            <header className="flex items-center justify-between w-full px-4 py-2 gap-4 border-b border-b-muted-foreground/20">
                 <SidebarTrigger />
                 <div className="flex-1 items-center gap-4">
                     <Breadcrumb>
                         <BreadcrumbList>
                             {breadcrumbs?.map((crumb, index) => (
-                                    <>
+                                    <div className="flex items-center gap-2" key={index}>
                                     <BreadcrumbItem key={index}>
                                         <BreadcrumbLink href={crumb.href}>
                                             <BreadcrumbPage>{crumb.label}</BreadcrumbPage>
                                         </BreadcrumbLink>
                                     </BreadcrumbItem>
                                     {index < breadcrumbs.length - 1 && <BreadcrumbSeparator />}
-                                    </>
+                                    </div>
                                 ))}
                         </BreadcrumbList>
                     </Breadcrumb>

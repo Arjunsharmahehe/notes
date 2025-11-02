@@ -154,3 +154,17 @@ export const getUserNotes = async () => {
     return { success: false, notebooks: [], message: e.message || "Failed to retrieve notes" }
   }
 }
+
+// GET single note
+export const getNoteById = async (noteId: string) => {
+  try {
+    const note = await db.select().from(notes).where(eq(notes.id, noteId)).limit(1).then(res => res[0]);
+    if (!note) {
+      return { success: false, note: null, message: "Note not found" };
+    }
+    return { success: true, note, message: "Note retrieved successfully" };
+  } catch (error) {
+    const e = error as Error;
+    return { success: false, note: null, message: e.message || "Failed to retrieve note" };
+  }
+}

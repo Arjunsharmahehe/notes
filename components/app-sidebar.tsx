@@ -61,7 +61,7 @@ export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sideb
                     {item.notes.map((note) => (
                       <SidebarMenuItem key={note.id}>
                         <SidebarMenuButton asChild>
-                          <Link href={`/notes/${note.id}`}>{note.title}</Link>
+                          <Link href={`dashboard/notes/${note.id}`}>{note.title}</Link>
                         </SidebarMenuButton>
                       </SidebarMenuItem>
                     ))}
