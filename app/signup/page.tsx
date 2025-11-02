@@ -17,7 +17,7 @@ export default function Page() {
           chromaticAberration={0}
           dither={0}
           curvature={0}
-          tint="#9797F7"
+          tint="#ffffff"
           mouseReact={true}
           mouseStrength={0.5}
           pageLoadAnimation={false}
