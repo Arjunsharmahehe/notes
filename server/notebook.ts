@@ -1,7 +1,7 @@
 "use server"
 
 import { db } from "@/db/drizzle"
-import { InsertNotebook, notebooks } from "@/db/schema";
+import { InsertNotebook, notebooks, notes } from "@/db/schema";
 import { auth } from "@/lib/auth";
 import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
@@ -76,4 +76,81 @@ export const deleteNotebook = async (notebookId: string) => {
         const e = error as Error;
         return { success: false, message: e.message || "Failed to delete notebook" };
     }
+}
+
+// GET all user notebooks with their notes
+export const getUserNotes = async () => {
+  try {
+    const session = await auth.api.getSession({ headers: await headers() })
+    const userId = session?.user?.id
+    if (!userId) {
+      return { success: false, notebooks: [], message: "User not authenticated" }
+    }
+
+    const rows = await db
+      .select({
+        notebookId: notebooks.id,
+        notebookName: notebooks.name,
+        notebookCreatedAt: notebooks.createdAt,
+        notebookUpdatedAt: notebooks.updatedAt,
+        noteId: notes.id,
+        noteTitle: notes.title,
+        noteContent: notes.content,
+        noteCreatedAt: notes.createdAt,
+        noteUpdatedAt: notes.updatedAt,
+      })
+      .from(notebooks)
+      .leftJoin(notes, eq(notes.notebookId, notebooks.id))
+      .where(eq(notebooks.userId, userId))
+
+    const grouped = new Map<
+      string,
+      {
+        id: string
+        name: string
+        createdAt: Date | null
+        updatedAt: Date | null
+        notes: Array<{
+          id: string
+          title: string
+          content: unknown
+          createdAt: Date | null
+          updatedAt: Date | null
+        }>
+      }
+    >()
+
+    for (const row of rows) {
+      const bucket =
+        grouped.get(row.notebookId) ??
+        grouped
+          .set(row.notebookId, {
+            id: row.notebookId,
+            name: row.notebookName,
+            createdAt: row.notebookCreatedAt,
+            updatedAt: row.notebookUpdatedAt,
+            notes: [],
+          })
+          .get(row.notebookId)!
+
+      if (row.noteId) {
+        bucket.notes.push({
+          id: row.noteId,
+          title: row.noteTitle!,
+          content: row.noteContent!,
+          createdAt: row.noteCreatedAt,
+          updatedAt: row.noteUpdatedAt,
+        })
+      }
+    }
+
+    return {
+      success: true,
+      notebooks: Array.from(grouped.values()),
+      message: "Notebooks with notes retrieved successfully",
+    }
+  } catch (error) {
+    const e = error as Error
+    return { success: false, notebooks: [], message: e.message || "Failed to retrieve notes" }
+  }
 }

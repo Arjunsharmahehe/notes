@@ -4,7 +4,7 @@ import { LoginForm } from "@/components/forms/login-form"
 export default function Page() {
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10" style={{ width: '100%', height: '600px', position: 'relative' }}>
-        <FaultyTerminal className="absolute z-10"
+        <FaultyTerminal className="absolute z-10 bg-white dark:bg-black"
           scale={2.5}
           gridMul={[2, 1]}
           digitSize={1.2}
@@ -17,7 +17,7 @@ export default function Page() {
           chromaticAberration={0}
           dither={0}
           curvature={0}
-          tint="#9797F7"
+          tint="#ffffff"
           mouseReact={true}
           mouseStrength={0.5}
           pageLoadAnimation={false}
