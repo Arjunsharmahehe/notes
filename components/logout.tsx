@@ -3,8 +3,9 @@
 import { authClient } from "@/lib/auth-client";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
+import { LogOutIcon } from "lucide-react";
 
-export function Logout(){
+export function Logout({ className = "", variant = "outline" }: { className?: string, variant?: "outline" | "default" | "ghost" | "link" | "destructive" | "secondary" }) {
 
     const router = useRouter();
 
@@ -14,8 +15,9 @@ export function Logout(){
     }
 
     return (
-        <Button variant={"outline"} onClick={handleLogout}>
+        <Button variant={variant} onClick={handleLogout} className={`flex items-center gap-2 ${className}`}>
             Logout
+            <LogOutIcon />
         </Button>
     )
 }

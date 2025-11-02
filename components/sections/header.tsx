@@ -1,25 +1,47 @@
 'use client'
 import Link from 'next/link'
 import { Logo } from '@/components/logo'
-import { Menu, X } from 'lucide-react'
+import { LayoutDashboardIcon, Menu, User, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import React from 'react'
 import { cn } from '@/lib/utils'
-import { useScroll } from 'motion/react'
+import { AnimatePresence, motion, useScroll } from 'motion/react'
 import { ModeToggle } from '../theme-toggle-button'
+import { authClient } from '@/lib/auth-client'
+import { set } from 'zod'
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Logout } from '../logout'
 
 const menuItems = [
-    { name: 'Dashboard', href: '/dashboard' },
-    { name: 'Solution', href: '/solution' },
-    { name: 'Pricing', href: '/pricing' },
-    { name: 'About', href: '/about' },
+    { name: 'Tech Stack', href: '#tech-stack' },
+    { name: 'Features', href: '#features' },
+    
 ]
 
 export const HeroHeader = () => {
     const [menuState, setMenuState] = React.useState(false)
     const [scrolled, setScrolled] = React.useState(false)
+    const [isUser, setIsUser] = React.useState(false)
+    const [user, setUser] = React.useState<{ name: string } | null>(null)
 
     const { scrollYProgress } = useScroll()
+
+    React.useEffect(() => {
+        const checkUser = async () => {
+            const user = (await authClient.getSession()).data?.user
+            setIsUser(!!user)
+            setUser(user || null)
+        }
+        checkUser()
+    }, [])
 
     React.useEffect(() => {
         const unsubscribe = scrollYProgress.on('change', (latest) => {
@@ -80,28 +102,76 @@ export const HeroHeader = () => {
                                     ))}
                                 </ul>
                             </div>
-                            <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
+                            <div className="flex w-full flex-col items-center space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
                                 <ModeToggle />
-                                <Button
-                                    asChild
-                                    variant="outline"
-                                    size="sm">
-                                    <Link href="/login">
-                                        <span>Login</span>
-                                    </Link>
-                                </Button>
-                                <Button
-                                    asChild
-                                    size="sm">
-                                    <Link href="/signup">
-                                        <span>Sign Up</span>
-                                    </Link>
-                                </Button>
+                                <AnimatePresence mode="wait">
+                                    {isUser ? (
+                                        <motion.div
+                                            key="user"
+                                            initial={{ opacity: 0}}
+                                            animate={{ opacity: 1}}
+                                            exit={{ opacity: 0 }}
+                                            transition={{ duration: 0.18 }}
+                                        >
+                                            <UserProfileMenu name={user?.name || "User"} />
+                                        </motion.div>
+                                    ) : (
+                                        <motion.div
+                                            key="auth"
+                                            className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit"
+                                            initial={{ opacity: 0}}
+                                            animate={{ opacity: 1 }}
+                                            exit={{ opacity: 0 }}
+                                            transition={{ duration: 0.18 }}
+                                        >
+                                            <Button asChild variant="outline" size="sm">
+                                                <Link href="/login">
+                                                <span>Login</span>
+                                                </Link>
+                                            </Button>
+                                            <Button asChild size="sm">
+                                                <Link href="/signup">
+                                                <span>Sign Up</span>
+                                                </Link>
+                                            </Button>
+                                        </motion.div>
+                                    )}
+                                    </AnimatePresence>
                             </div>
                         </div>
                     </div>
                 </div>
             </nav>
         </header>
+    )
+}
+
+const UserProfileMenu = ({ name }: { name: string }) => {
+    return (
+        <DropdownMenu>
+            <DropdownMenuTrigger>
+                <Button variant='ghost' className='px-3 py-1.5'>
+                    <div className='flex items-center gap-2'>
+                        <User className='size-5' />
+                        <span className='hidden sm:inline-block'>{name}</span>
+                    </div>
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                    <Link href={"/dashboard"} className='flex gap-3 items-center'>
+                        <LayoutDashboardIcon />
+                        Dashboard
+                    </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className='p-0'>
+                    <Logout className='w-full m-0' variant='ghost'/>
+                </DropdownMenuItem>
+
+            </DropdownMenuContent>
+        </DropdownMenu>
     )
 }
