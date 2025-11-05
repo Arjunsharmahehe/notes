@@ -1,0 +1,120 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+body {
+  --tt-toolbar-height: 44px;
+  --tt-theme-text: var(--tt-gray-light-900);
+
+  .dark & {
+    --tt-theme-text: var(--tt-gray-dark-900);
+  }
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  color: var(--tt-theme-text);
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  padding: 0;
+  overscroll-behavior-y: none;
+}
+
+html,
+body {
+  overscroll-behavior-x: none;
+}
+
+html,
+body,
+#root,
+#app {
+  height: 100%;
+  background-color: var(--tt-bg-color);
+}
+
+::-webkit-scrollbar {
+  width: 0.25rem;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--tt-scrollbar-color) transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--tt-scrollbar-color);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tiptap.ProseMirror {
+  font-family: "DM Sans", sans-serif;
+}
+
+.simple-editor-wrapper {
+  width: 100%;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(1rem, 4vw, 2.5rem);
+  overflow: hidden;
+  background: var(--tt-bg-color);
+}
+
+.simple-editor-content {
+  width: min(100%, 720px);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 2vw, 2rem);
+}
+
+.simple-editor-content .tiptap.ProseMirror.simple-editor {
+  flex: 1;
+  padding: clamp(1.25rem, 3vw, 3rem);
+  min-height: 60vh;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+@media (max-width: 768px) {
+  body {
+    --tt-toolbar-height: 56px;
+  }
+
+  .simple-editor-wrapper {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .simple-editor-wrapper {
+    padding: 1rem;
+  }
+
+  .simple-editor-content .tiptap.ProseMirror.simple-editor {
+    padding: 1rem 1.25rem 20vh;
+  }
+}
+
+.simple-editor-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  width: min(100%, 720px);
+  margin: 0 auto clamp(1rem, 2vw, 1.5rem);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+}
+
+.simple-editor-toolbar--mobile {
+  position: fixed;
+  inset: auto 0 env(safe-area-inset-bottom) 0;
+  width: 100%;
+  margin: 0;
+  border-radius: 16px 16px 0 0;
+}

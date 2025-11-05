@@ -3,6 +3,7 @@
 import { db } from "@/db/drizzle"
 import { InsertNotebook, notebooks, notes } from "@/db/schema";
 import { auth } from "@/lib/auth";
+import { UseEditorOptions } from "@tiptap/react";
 import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 
@@ -78,6 +79,18 @@ export const deleteNotebook = async (notebookId: string) => {
     }
 }
 
+// GET the notes in a specific notebook
+export const getNotesByNotebookId = async (notebookId: string) => {
+    try {
+        const notesList = await db.select().from(notes).where(eq(notes.notebookId, notebookId));
+
+        return { success: true, notes: notesList, message: "Notes retrieved successfully" };
+    } catch (error) {
+        const e = error as Error;
+        return { success: false, notes: [], message: e.message || "Failed to retrieve notes" };
+    }
+}
+
 // GET all user notebooks with their notes
 export const getUserNotes = async () => {
   try {
@@ -113,7 +126,7 @@ export const getUserNotes = async () => {
         notes: Array<{
           id: string
           title: string
-          content: unknown
+          content: UseEditorOptions["content"]
           createdAt: Date | null
           updatedAt: Date | null
         }>
@@ -152,19 +165,5 @@ export const getUserNotes = async () => {
   } catch (error) {
     const e = error as Error
     return { success: false, notebooks: [], message: e.message || "Failed to retrieve notes" }
-  }
-}
-
-// GET single note
-export const getNoteById = async (noteId: string) => {
-  try {
-    const note = await db.select().from(notes).where(eq(notes.id, noteId)).limit(1).then(res => res[0]);
-    if (!note) {
-      return { success: false, note: null, message: "Note not found" };
-    }
-    return { success: true, note, message: "Note retrieved successfully" };
-  } catch (error) {
-    const e = error as Error;
-    return { success: false, note: null, message: e.message || "Failed to retrieve note" };
   }
 }

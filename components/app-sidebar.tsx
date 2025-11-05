@@ -59,9 +59,9 @@ export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sideb
                 <SidebarGroupContent>
                   <SidebarMenu>
                     {item.notes.map((note) => (
-                      <SidebarMenuItem key={note.id}>
+                      <SidebarMenuItem key={note.id} className="pl-3">
                         <SidebarMenuButton asChild>
-                          <Link href={`dashboard/notes/${note.id}`}>{note.title}</Link>
+                          <Link href={`/dashboard/notes/${note.id}`}>{note.title}</Link>
                         </SidebarMenuButton>
                       </SidebarMenuItem>
                     ))}

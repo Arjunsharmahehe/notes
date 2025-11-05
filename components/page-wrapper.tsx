@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/breadcrumb"
 import { SidebarTrigger } from "./ui/sidebar";
 import { Logout } from "./logout";
+import { ThemeToggle } from "./tiptap-templates/simple/theme-toggle";
 
 type PageWrapperProps = {
     children: React.ReactNode;
@@ -36,8 +37,11 @@ export function PageWrapper({ children, title, breadcrumbs }: PageWrapperProps) 
                         </BreadcrumbList>
                     </Breadcrumb>
                 </div>
-
+                
+               <div className="flex gap-2 items-center">
+                <ThemeToggle />
                 <Logout />
+               </div>
             </header>
             <div className="flex flex-1 flex-col gap-4  p-4 pt-0">
                 {children}

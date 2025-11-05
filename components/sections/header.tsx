@@ -19,6 +19,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Logout } from '../logout'
+import { ThemeToggle } from '../tiptap-templates/simple/theme-toggle'
 
 const menuItems = [
     { name: 'Tech Stack', href: '#tech-stack' },
@@ -103,7 +104,7 @@ export const HeroHeader = () => {
                                 </ul>
                             </div>
                             <div className="flex w-full flex-col items-center space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
-                                <ModeToggle />
+                                <ThemeToggle />
                                 <AnimatePresence mode="wait">
                                     {isUser ? (
                                         <motion.div
