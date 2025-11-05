@@ -4,7 +4,7 @@ import { db } from "@/db/drizzle"
 import { InsertNotebook, notebooks, notes } from "@/db/schema";
 import { auth } from "@/lib/auth";
 import { UseEditorOptions } from "@tiptap/react";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { headers } from "next/headers";
 
 // Create a new notebook for the authenticated user
@@ -31,7 +31,7 @@ export const getUserNotebooks = async () => {
             return { success: false, notebooks: [], message: "User not authenticated" };
         }
 
-        const notebooksList = await db.select().from(notebooks).where(eq(notebooks.userId, userId));
+        const notebooksList = (await db.select().from(notebooks).where(eq(notebooks.userId, userId))).sort((a, b) => b.createdAt!.getTime() - a.createdAt!.getTime());
 
         return { success: true, notebooks: notebooksList, message: "Notebooks retrieved successfully" };
     } catch (error) {
@@ -114,7 +114,7 @@ export const getUserNotes = async () => {
       })
       .from(notebooks)
       .leftJoin(notes, eq(notes.notebookId, notebooks.id))
-      .where(eq(notebooks.userId, userId))
+      .where(eq(notebooks.userId, userId)).orderBy(desc(notebooks.createdAt), desc(notes.updatedAt))
 
     const grouped = new Map<
       string,

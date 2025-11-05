@@ -137,7 +137,7 @@ export function ResetPasswordForm({
                   {isLoading ? "Resetting password" : "Reset Password"}
                 </Button>
                 <FieldDescription className="text-center">
-                  Create a new account - <Link href="#">Sign up</Link>
+                  Create a new account - <Link href="/signup">Sign up</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>

@@ -126,15 +126,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <div className="flex items-center">
-                      <FieldLabel htmlFor="sign-up-form-password">Password</FieldLabel>
-                      <Link
-                        href="#"
-                        className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                      >
-                        Forgot your password?
-                      </Link>
-                    </div>
+                    <FieldLabel htmlFor="sign-up-form-password">Password</FieldLabel>
                     <Input
                       {...field}
                       id="sign-up-form-password"
@@ -177,7 +169,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
                   {isLoading ? "Creating" : "Create Account"}
                 </Button>
                 <FieldDescription className="px-6 text-center">
-                  Already have an account? <a href="#">Sign in</a>
+                  Already have an account? <a href="/login">Sign in</a>
                 </FieldDescription>
               </Field>
             </FieldGroup>

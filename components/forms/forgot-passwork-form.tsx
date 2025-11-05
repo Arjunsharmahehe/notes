@@ -105,7 +105,7 @@ export function ForgotPasswordForm({
                   {isLoading ? "Sending" : "Reset Password"}
                 </Button>
                 <FieldDescription className="text-center">
-                  Don&apos;t have an account? <Link href="#">Sign up</Link>
+                  Don&apos;t have an account? <Link href="/signup">Sign up</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>

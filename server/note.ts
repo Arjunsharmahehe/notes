@@ -19,7 +19,7 @@ export const createNote = async (values: InsertNote) => {
 // GET notes for a specific notebook
 export const getNotesByNotebookId = async (notebookId: string) => {
     try {
-        const notesList = await db.select().from(notes).where(eq(notes.notebookId, notebookId));
+        const notesList = (await db.select().from(notes).where(eq(notes.notebookId, notebookId))).sort((a, b) => b.updatedAt!.getTime() - a.updatedAt!.getTime());
         return { success: true, notes: notesList, message: "Notes retrieved successfully" };
     } catch (error) {
         const e = error as Error;

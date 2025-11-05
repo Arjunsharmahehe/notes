@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ChevronRight } from "lucide-react"
+import { ChevronRight, NotebookIcon } from "lucide-react"
 
 import { SearchForm } from "@/components/search-form"
 import { VersionSwitcher } from "@/components/version-switcher"
@@ -30,10 +30,10 @@ export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sideb
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-        {/* <VersionSwitcher
-          versions={data.versions}
-          defaultVersion={data.versions[0]}
-        /> */}
+        <div className="flex gap-2 items-center px-3 py-3 ">
+          <NotebookIcon className="size-5" />
+          <span className="font-semibold text-xl">Your notes</span>
+        </div>
         <SearchForm />
       </SidebarHeader>
       <SidebarContent className="gap-0">
@@ -59,8 +59,8 @@ export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sideb
                 <SidebarGroupContent>
                   <SidebarMenu>
                     {item.notes.map((note) => (
-                      <SidebarMenuItem key={note.id} className="pl-3">
-                        <SidebarMenuButton asChild>
+                      <SidebarMenuItem key={note.id} className="ml-3 border-l border-l-purple-700 ">
+                        <SidebarMenuButton asChild className="rounded-none rounded-r-md">
                           <Link href={`/dashboard/notes/${note.id}`}>{note.title}</Link>
                         </SidebarMenuButton>
                       </SidebarMenuItem>

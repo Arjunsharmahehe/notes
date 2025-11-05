@@ -8,7 +8,7 @@ export default async function NotePage({ params }: { params: Promise<{ noteId: s
     const { note } = await getNoteById(noteId);
 
   return (
-    <PageWrapper breadcrumbs={[{ label: "Dashboard", href: "/dashboard" }, { label: note?.title || "Note", href: "#" }]} title="Note">
+    <PageWrapper breadcrumbs={[{ label: "Dashboard", href: "/dashboard" },{label: "...", href: `/dashboard/notebook/${note?.notebookId}`}, { label: note?.title || "Note", href: "#" }]} title="Note">
         <div>
             <h1 className="text-lg md:text-xl lg:text-2xl font-semibold text-center mt-2">
               {note?.title || "Note"}
