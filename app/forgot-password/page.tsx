@@ -1,5 +1,6 @@
 import { ForgotPasswordForm } from "@/components/forms/forgot-passwork-form"
 import FaultyTerminal from "@/components/FaultyTerminal"
+import { Suspense } from "react"
 
 export default function Page() {
   return (
@@ -25,7 +26,9 @@ export default function Page() {
         />
       
       <div className="w-full max-w-sm absolute mx-auto my-auto z-20">
-        <ForgotPasswordForm />
+        <Suspense>
+          <ForgotPasswordForm />
+        </Suspense>
       </div>
     </div>
   )
