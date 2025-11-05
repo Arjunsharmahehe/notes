@@ -2,7 +2,6 @@ import * as React from "react"
 import { ChevronRight, NotebookIcon } from "lucide-react"
 
 import { SearchForm } from "@/components/search-form"
-import { VersionSwitcher } from "@/components/version-switcher"
 import {
   Collapsible,
   CollapsibleContent,
@@ -59,8 +58,8 @@ export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sideb
                 <SidebarGroupContent>
                   <SidebarMenu>
                     {item.notes.map((note) => (
-                      <SidebarMenuItem key={note.id} className="ml-3 border-l border-l-purple-700 ">
-                        <SidebarMenuButton asChild className="rounded-none rounded-r-md">
+                      <SidebarMenuItem key={note.id} className="ml-3 ">
+                        <SidebarMenuButton asChild>
                           <Link href={`/dashboard/notes/${note.id}`}>{note.title}</Link>
                         </SidebarMenuButton>
                       </SidebarMenuItem>

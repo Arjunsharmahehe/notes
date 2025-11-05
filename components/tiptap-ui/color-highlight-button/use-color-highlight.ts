@@ -147,7 +147,19 @@ export function canColorHighlight(
     if (!isExtensionAvailable(editor, ["nodeBackground"])) return false
 
     try {
-      return editor.can().toggleNodeBackgroundColor("test")
+      const canChain = editor
+        .can()
+        .chain()
+        .focus() as unknown as {
+        toggleNodeBackgroundColor?: (color: string) => { run?: () => boolean }
+      }
+
+      const result = canChain.toggleNodeBackgroundColor?.("test")
+      if (result && typeof result.run === "function") {
+        return !!result.run()
+      }
+
+      return false
     } catch {
       return false
     }
@@ -202,7 +214,16 @@ export function removeHighlight(
   if (mode === "mark") {
     return editor.chain().focus().unsetMark("highlight").run()
   } else {
-    return editor.chain().focus().unsetNodeBackgroundColor().run()
+    const chain = editor.chain().focus() as unknown as {
+      unsetNodeBackgroundColor?: () => { run?: () => boolean }
+    }
+
+    const result = chain.unsetNodeBackgroundColor?.()
+    if (result && typeof result.run === "function") {
+      return !!result.run()
+    }
+
+    return false
   }
 }
 
@@ -291,11 +312,16 @@ export function useColorHighlight(config: UseColorHighlightConfig) {
 
       return true
     } else {
-      const success = editor
-        .chain()
-        .focus()
-        .toggleNodeBackgroundColor(highlightColor)
-        .run()
+      const chain = editor.chain().focus() as unknown as {
+        toggleNodeBackgroundColor?: (
+          color: string
+        ) => { run?: () => boolean }
+      }
+
+      const result = chain.toggleNodeBackgroundColor?.(highlightColor)
+      const success = !!result && typeof result.run === "function"
+        ? result.run()
+        : false
 
       if (success) {
         onApplied?.({ color: highlightColor, label, mode })

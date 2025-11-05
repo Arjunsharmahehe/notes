@@ -7,8 +7,8 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { SidebarTrigger } from "./ui/sidebar";
-import { Logout } from "./logout";
 import { ThemeToggle } from "./tiptap-templates/simple/theme-toggle";
+import { UserProfileMenu } from "./sections/header";
 
 type PageWrapperProps = {
     children: React.ReactNode;
@@ -38,9 +38,9 @@ export function PageWrapper({ children, title, breadcrumbs }: PageWrapperProps) 
                     </Breadcrumb>
                 </div>
                 
-               <div className="flex gap-2 items-center">
+               <div className="flex gap-2 items-center mr-3">
                 <ThemeToggle />
-                <Logout />
+                <UserProfileMenu name="Profile" />
                </div>
             </header>
             <div className="flex flex-1 flex-col gap-4  p-4 pt-0">

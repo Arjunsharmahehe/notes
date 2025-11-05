@@ -104,7 +104,7 @@ body,
 .simple-editor-toolbar {
   position: sticky;
   top: 0;
-  z-index: 20;
+  z-index: 100;
   width: min(100%, 720px);
   margin: 0 auto clamp(1rem, 2vw, 1.5rem);
   backdrop-filter: blur(12px);

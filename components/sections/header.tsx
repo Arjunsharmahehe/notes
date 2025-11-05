@@ -1,14 +1,11 @@
 'use client'
 import Link from 'next/link'
-import { Logo } from '@/components/logo'
 import { LayoutDashboardIcon, Menu, User, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import React from 'react'
 import { cn } from '@/lib/utils'
 import { AnimatePresence, motion, useScroll } from 'motion/react'
-import { ModeToggle } from '../theme-toggle-button'
 import { authClient } from '@/lib/auth-client'
-import { set } from 'zod'
 
 import {
   DropdownMenu,
@@ -147,7 +144,7 @@ export const HeroHeader = () => {
     )
 }
 
-const UserProfileMenu = ({ name }: { name: string }) => {
+export const UserProfileMenu = ({ name }: { name: string }) => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger>

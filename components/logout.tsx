@@ -11,7 +11,11 @@ export function Logout({ className = "", variant = "outline" }: { className?: st
 
     const handleLogout = async () => {
         await authClient.signOut();
-        router.push("/");
+        if (window.location.pathname === "/") {
+            router.refresh();
+        } else {
+            router.push("/");
+        }
     }
 
     return (

@@ -1,4 +1,5 @@
 'use client';
+import type { JSX } from 'react';
 import { ReactNode } from 'react';
 import { motion, Variants } from 'motion/react';
 import React from 'react';
@@ -23,11 +24,12 @@ export type AnimatedGroupProps = {
     item?: Variants;
   };
   preset?: PresetType;
-  as?: React.ElementType;
-  asChild?: React.ElementType;
+  as?: keyof JSX.IntrinsicElements;
+  asChild?: keyof JSX.IntrinsicElements;
 };
 
 const defaultContainerVariants: Variants = {
+  hidden: { opacity: 0 },
   visible: {
     transition: {
       staggerChildren: 0.1,
@@ -108,6 +110,10 @@ function AnimatedGroup({
   as = 'div',
   asChild = 'div',
 }: AnimatedGroupProps) {
+  const motionMap = React.useMemo(
+    () => motion as unknown as Record<string, typeof motion.div>,
+    []
+  );
   const selectedVariants = {
     item: addDefaultVariants(preset ? presetVariants[preset] : {}),
     container: addDefaultVariants(defaultContainerVariants),
@@ -116,12 +122,12 @@ function AnimatedGroup({
   const itemVariants = variants?.item || selectedVariants.item;
 
   const MotionComponent = React.useMemo(
-    () => motion.create(as as keyof JSX.IntrinsicElements),
-    [as]
+    () => motionMap[as] ?? motion.div,
+    [motionMap, as]
   );
   const MotionChild = React.useMemo(
-    () => motion.create(asChild as keyof JSX.IntrinsicElements),
-    [asChild]
+    () => motionMap[asChild] ?? motion.div,
+    [motionMap, asChild]
   );
 
   return (
