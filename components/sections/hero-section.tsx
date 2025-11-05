@@ -56,7 +56,7 @@ export default function HeroSection() {
                                     delay={0.5}
                                     as="p"
                                     className="mt-8 max-w-2xl text-pretty text-lg">
-                                    Supercharge your note-taking, organization, and productivity with whatever I have build, muah
+                                    Supercharge your note-taking experience, organization, and productivity with whatever I have build, muah
                                 </TextEffect>
 
                                 <AnimatedGroup
