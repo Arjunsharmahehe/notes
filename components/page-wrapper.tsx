@@ -28,7 +28,7 @@ export function PageWrapper({ children, title, breadcrumbs }: PageWrapperProps) 
                                     <div className="flex items-center gap-2" key={index}>
                                     <BreadcrumbItem key={index}>
                                         <BreadcrumbLink href={crumb.href}>
-                                            <BreadcrumbPage>{crumb.label}</BreadcrumbPage>
+                                            <BreadcrumbPage className="text-xs md:text-sm">{crumb.label}</BreadcrumbPage>
                                         </BreadcrumbLink>
                                     </BreadcrumbItem>
                                     {index < breadcrumbs.length - 1 && <BreadcrumbSeparator />}
@@ -38,7 +38,7 @@ export function PageWrapper({ children, title, breadcrumbs }: PageWrapperProps) 
                     </Breadcrumb>
                 </div>
                 
-               <div className="flex gap-2 items-center mr-3">
+               <div className="flex gap-1 md:gap-1.5 lg:gap-2 items-center md:mr-3">
                 <ThemeToggle />
                 <UserProfileMenu name="Profile" />
                </div>

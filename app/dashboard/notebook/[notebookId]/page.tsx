@@ -15,7 +15,7 @@ export default async function NotebooksPage({ params }: { params: Promise<{ note
   return (
     <PageWrapper breadcrumbs={[{ label: "Dashboard", href: "/dashboard" }, { label: "Notebook", href: "#" }]} title="Notebooks">
       <div className="flex items-center w-full justify-between gap-2">
-        <p className="font-semibold text-xl w-full md:text-2xl">Namaste</p>
+        <p className="font-semibold text-xl w-full md:text-2xl">Your Notes</p>
         <CreateNoteButton notebookId={notebookId} />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2">
