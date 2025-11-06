@@ -1,14 +1,14 @@
 # Notes
 
-A local-first note-taking web application with seamless authentication and cloud sync.
+It's just a note taking app with a rich-text editor. Backsup your notes when you pause for 2sec. Don't try to be "Flash" and have your stuff not saved.
+
+![rich-text-editor](/public/notes-full-page.png)
 
 ## Features
 
-- **Local-First Architecture** - Notes are stored locally for instant access and offline support
 - **Rich Text Editing** - Create and edit notes with a clean, distraction-free interface
 - **Email Authentication** - Secure sign-up with email verification
 - **Password Management** - Forgot password and reset password functionality
-- **Google OAuth** - Quick sign-in with your Google account
 - **Cloud Sync** - Automatic synchronization across devices when online
 
 ## Tech Stack
