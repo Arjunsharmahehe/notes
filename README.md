@@ -20,3 +20,5 @@ It's just a note taking app with a rich-text editor. Backsup your notes when you
 - **Email Service** - [Render](https://render.com/) - Email delivery
 - **Email Testing** - [new.email](https://new.email/) - Temporary email generation
 - **UI Components** - [Tailark](https://tailark.com/) - Tailwind CSS building blocks
+
+I'm dumb
