@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 const links = [
     {
-        title: 'Linked it? Checkout my portfolio',
+        title: 'Liked it? Checkout my portfolio',
         href: 'https://arjunsharmahehe.tech',
     }
 ]
