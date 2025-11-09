@@ -4,6 +4,8 @@ import { notes } from "@/db/schema";
 import { db } from "@/db/drizzle"
 import { InsertNote } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 // Create a new note for a specific notebook
 export const createNote = async (values: InsertNote) => {
@@ -29,10 +31,20 @@ export const getNotesByNotebookId = async (notebookId: string) => {
 
 // GET single note
 export const getNoteById = async (noteId: string) => {
+
   try {
+
+    const session = await auth.api.getSession({
+        headers: await headers()
+    });
+    const userId = session?.user?.id;
+
     const note = await db.select().from(notes).where(eq(notes.id, noteId)).limit(1).then(res => res[0]);
     if (!note) {
-      return { success: false, note: null, message: "Note not found" };
+      return { success: false, note: null, message: "Note not found :(" };
+    }
+    if (note.userId !== userId) {
+      return { success: false, note: null, message: "Unauthorized access to note" };
     }
     return { success: true, note, message: "Note retrieved successfully" };
   } catch (error) {

@@ -147,7 +147,7 @@ export const HeroHeader = () => {
 export const UserProfileMenu = ({ name }: { name: string }) => {
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger asChild>
                 <Button variant='ghost' className='px-3 py-1.5'>
                     <div className='flex items-center gap-2'>
                         <User className='size-5' />

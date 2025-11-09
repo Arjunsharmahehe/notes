@@ -9,8 +9,6 @@ export default async function NotebooksPage({ params }: { params: Promise<{ note
 
   const {notebookId} = await params;
   const notes = await getNotesByNotebookId(notebookId);
-  // const notebooksWithNotes = await getUserNotes();
-  // console.log("Notebooks with notes:", notebooksWithNotes);
 
   return (
     <PageWrapper breadcrumbs={[{ label: "Dashboard", href: "/dashboard" }, { label: "Notebook", href: "#" }]} title="Notebooks">

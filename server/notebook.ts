@@ -82,9 +82,10 @@ export const deleteNotebook = async (notebookId: string) => {
 // GET the notes in a specific notebook
 export const getNotesByNotebookId = async (notebookId: string) => {
     try {
-        const notesList = await db.select().from(notes).where(eq(notes.notebookId, notebookId));
-
-        return { success: true, notes: notesList, message: "Notes retrieved successfully" };
+      
+      const notesList = await db.select().from(notes).where(eq(notes.notebookId, notebookId));
+      return { success: true, notes: notesList, message: "Notes retrieved successfully" };
+    
     } catch (error) {
         const e = error as Error;
         return { success: false, notes: [], message: e.message || "Failed to retrieve notes" };
