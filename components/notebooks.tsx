@@ -2,6 +2,9 @@ import { Notebook } from "@/db/schema"
 import DeleteNotebookButton from "./delete-notebook-button"
 import { EditNotebookButton } from "./edit-notebook-button"
 import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { updateNotebook } from "@/server/notebook"
+import PinNotebookButton from "./pin-notebook-button"
 
 export const Notebooks = ({ notebook }: { notebook: Notebook }) => {
   return (
@@ -22,6 +25,7 @@ export const Notebooks = ({ notebook }: { notebook: Notebook }) => {
             notebookId={notebook.id}
             notebookName={notebook.name}
           />
+          <PinNotebookButton notebookId={notebook.id} isPinned={notebook.isPinned} />
         </div>
       </header>
 
