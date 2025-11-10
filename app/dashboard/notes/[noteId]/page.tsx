@@ -1,7 +1,5 @@
 import { PageWrapper } from "@/components/page-wrapper";
 import { SimpleEditor } from "@/components/tiptap-templates/simple/simple-editor";
-import { auth } from "@/lib/auth";
-import { authClient } from "@/lib/auth-client";
 import { getNoteById } from "@/server/note";
 import { UseEditorOptions } from "@tiptap/react";
 
@@ -22,12 +20,12 @@ export default async function NotePage({ params }: { params: Promise<{ noteId: s
 
   return (
     <PageWrapper breadcrumbs={[{ label: "Dashboard", href: "/dashboard" },{label: "...", href: `/dashboard/notebook/${note?.notebookId}`}, { label: note?.title || "Note", href: "#" }]} title="Note">
-        <div>
-            <h1 className="text-lg md:text-xl lg:text-2xl font-semibold text-center mt-2">
-              {note?.title || "Note"}
-            </h1>
-            <SimpleEditor content={note?.content as UseEditorOptions["content"]} noteId={noteId} />
-        </div>
+      <div className="flex flex-col gap-0">
+        <h1 className="text-lg md:text-xl mx-auto mt-4 lg:text-2xl font-semibold">
+          {note?.title || "Note"}
+        </h1>
+        <SimpleEditor content={note?.content as UseEditorOptions["content"]} noteId={noteId} />
+      </div>
     </PageWrapper>
   );
 }

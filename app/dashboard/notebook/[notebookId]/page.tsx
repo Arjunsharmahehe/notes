@@ -1,7 +1,7 @@
 
 import { CreateNoteButton } from "@/components/create-note-button";
-import { Notes } from "@/components/notes";
 import { PageWrapper } from "@/components/page-wrapper";
+import { DashboardNotesList } from "@/components/dashboard-notes-list";
 import { getNotesByNotebookId } from "@/server/note";
 
 
@@ -16,24 +16,12 @@ export default async function NotebooksPage({ params }: { params: Promise<{ note
         <p className="font-semibold text-xl w-full md:text-2xl">Your Notes</p>
         <CreateNoteButton notebookId={notebookId} />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2">
-        {notes.success &&
-        notes.notes?.map((note) => (
-          <Notes key={note.id} note={note} />
-        ))}
-      </div>
 
-      {notes.success && notes.notes.length === 0 && (
-        <NoNotes />
+      {!notes.success && (
+        <p className="text-sm text-destructive">{notes.message}</p>
       )}
+
+      {notes.success && <DashboardNotesList initialNotes={notes.notes} />}
     </PageWrapper>
   );
-}
-
-function NoNotes(){
-  return (
-    <div className="w-full text-center bg-secondary/60 rounded-md py-6 px-4">
-      <p className="text-muted-foreground">You have no notes. Start by creating one!</p>  
-    </div>
-  )
 }

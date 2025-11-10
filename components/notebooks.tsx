@@ -2,11 +2,14 @@ import { Notebook } from "@/db/schema"
 import DeleteNotebookButton from "./delete-notebook-button"
 import { EditNotebookButton } from "./edit-notebook-button"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { updateNotebook } from "@/server/notebook"
 import PinNotebookButton from "./pin-notebook-button"
 
-export const Notebooks = ({ notebook }: { notebook: Notebook }) => {
+type NotebooksProps = {
+  notebook: Notebook
+  onPinToggle?: (notebookId: string, nextIsPinned: number) => void
+}
+
+export const Notebooks = ({ notebook, onPinToggle }: NotebooksProps) => {
   return (
     <article className="group flex h-full flex-col justify-between rounded-lg border border-border bg-secondary/60 p-4 transition-colors hover:bg-secondary">
       <header className="flex items-start justify-between gap-4">
@@ -25,7 +28,11 @@ export const Notebooks = ({ notebook }: { notebook: Notebook }) => {
             notebookId={notebook.id}
             notebookName={notebook.name}
           />
-          <PinNotebookButton notebookId={notebook.id} isPinned={notebook.isPinned} />
+          <PinNotebookButton
+            notebookId={notebook.id}
+            isPinned={notebook.isPinned}
+            onToggle={(nextIsPinned) => onPinToggle?.(notebook.id, nextIsPinned)}
+          />
         </div>
       </header>
 
