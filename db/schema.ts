@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, timestamp, boolean, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, boolean, jsonb, integer } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm/relations";
 
 export const user = pgTable("user", {
@@ -66,6 +66,7 @@ export const notebooks = pgTable("notebooks", {
   id: text("id").primaryKey().default(sql`gen_random_uuid()`),
   name: text("name").notNull(),
   userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
+  isPinned: integer("is_pinned").default(0).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
     .defaultNow()
@@ -78,6 +79,7 @@ export const notes = pgTable("notes", {
   title: text("title").notNull(),
   content: jsonb("content").notNull(),
   notebookId: text("notebook_id").notNull().references(() => notebooks.id, { onDelete: "cascade" }),
+  isPinned: integer("is_pinned").default(0).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
     .defaultNow()
