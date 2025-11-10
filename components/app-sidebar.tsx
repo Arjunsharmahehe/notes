@@ -1,17 +1,11 @@
 import * as React from "react"
-import { ChevronRight, NotebookIcon } from "lucide-react"
+import { NotebookIcon } from "lucide-react"
 
 import { SearchForm } from "@/components/search-form"
 import {
   Sidebar,
   SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar"
 import { getUserNotes } from "@/server/notebook"
@@ -33,7 +27,7 @@ export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sideb
       </SidebarHeader>
       <SidebarContent className="gap-0">
         {/* We create a collapsible SidebarGroup for each parent. */}
-        <SidebarData notebooks={data.notebooks} />
+        <SidebarData notebooks={data.notebooks}/>
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
